@@ -1,14 +1,22 @@
 package sample.game;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Grid extends ArrayList<ArrayList<Square>>{
+public class Grid {
+    private Square[][] squares;
+
     public static final int height = 12;
     public static final int width = 8;
+    public Grid(){
+        squares = new Square[Grid.height][Grid.width];
+    }
 
     public Square get(Position position){
-        return this.get(position.getKey()).get(position.getValue());
+        return this.get(position.getKey(), position.getValue());
+    }
+
+    public Square get(Integer row, Integer col){
+        return this.squares[row][col];
     }
 
     public Iterator<Square> squareIterator(){
@@ -27,7 +35,7 @@ public class Grid extends ArrayList<ArrayList<Square>>{
                     col++;
                 }
 
-                return get(new Position(row++, col));
+                return squares[row++][col];
             }
         };
     }
@@ -37,6 +45,6 @@ public class Grid extends ArrayList<ArrayList<Square>>{
     }
 
     public void set(Integer row, Integer col, Square square){
-        this.get(row).set(col, square);
+        this.squares[row][col] = square;
     }
 }
