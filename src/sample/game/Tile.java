@@ -1,14 +1,12 @@
 package sample.game;
 
-import javafx.geometry.Pos;
-
-public class Tile extends Square {
+public class Tile extends PlayerTile {
     public void setNewPosition(Position newPosition) {
         this.currentPos = newPosition;
     }
 
     public
-    enum Shape{
+    enum Shape {
         Warrior((north, position) -> {
             Moves m = new Moves(north);
             m.add(position.getKey() + north, position.getValue());
@@ -29,6 +27,10 @@ public class Tile extends Square {
             m.add(position.getKey() + north, position.getValue() + north);
             m.add(position.getKey() + 2 * north, position.getValue() + 2 * north);
             m.add(position.getKey() + 3 * north, position.getValue() + 3 * north);
+
+            m.add(position.getKey() + north, position.getValue() - north);
+            m.add(position.getKey() + 2 * north, position.getValue() - 2 * north);
+            m.add(position.getKey() + 3 * north, position.getValue() - 3 * north);
             return m;
         }),
         Shield((north, position) -> {
@@ -51,13 +53,14 @@ public class Tile extends Square {
         }
     }
     private Shape currentShape;
-    private Position currentPos;
-    private Integer north;
 
     public Tile(Integer north, Position position){
+        this(north, position.getKey(), position.getValue());
+    }
+
+    public Tile(Integer north, Integer row, Integer col){
+        super(north, row, col);
         this.currentShape = Shape.Warrior;
-        this.north = north;
-        this.currentPos = position;
     }
 
     public Moves possibleMoves(){
@@ -73,15 +76,17 @@ public class Tile extends Square {
         return false;
     }
 
-    public Integer getNorth(){
-        return north;
-    }
-
-    public Position getCurrentPos(){
-        return currentPos;
+    @Override
+    public boolean isPlayable() {
+        return true;
     }
 
     public Shape getCurrentShape(){
         return currentShape;
+    }
+
+    @Override
+    public String toString(){
+        return "Shape " + currentShape + " at position " + currentPos;
     }
 }

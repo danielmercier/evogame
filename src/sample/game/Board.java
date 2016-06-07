@@ -8,13 +8,9 @@ public class Board {
     }
 
     public void move(Tile t, Position newPos){
-        this.grid.set(t.getCurrentPos(), new Empty());
+        this.grid.set(t.getCurrentPos(), new Empty(t.getCurrentPos()));
         this.grid.set(newPos, t);
         t.setNewPosition(newPos);
-    }
-
-    public void move(Play play){
-        this.move(play.getKey(), play.getValue());
     }
 
     public Grid getGrid(){
